@@ -22,7 +22,7 @@ A comprehensive fullstack application with React frontend, Node.js backend, Post
                        ┌─────────────────┐    ┌─────────────────┐
                        │   Prometheus    │    │    Grafana      │
                        │  (Monitoring)   │    │  (Dashboard)   │
-                       │   Port: 9090    │    │   Port: 3001    │
+                       │   Port: 9090    │    │   Port: 3002    │
                        └─────────────────┘    └─────────────────┘
                                 │
                                 ▼
@@ -31,6 +31,25 @@ A comprehensive fullstack application with React frontend, Node.js backend, Post
                        │   (Tracing)     │
                        │   Port: 16686   │
                        └─────────────────┘
+```
+
+## 🚀 Quick Start (TL;DR)
+
+```bash
+# 1. Clone and setup
+git clone <repository-url>
+cd fullstck-logging-monitoring
+cp env.example .env
+
+# 2. Start application (choose one)
+./start.sh                    # Option 1: Using script (Linux/Mac)
+docker-compose up --build -d  # Option 2: Direct docker-compose
+# Windows: docker-compose up --build -d
+
+# 3. Access your app
+# Frontend: http://localhost:3000
+# Backend: http://localhost:3001
+# Grafana: http://localhost:3002
 ```
 
 ## 🚀 Features
@@ -96,13 +115,61 @@ GRAFANA_PASSWORD=your_grafana_password
 
 ### 3. Build and Start Services
 
+You have **3 options** to start the application:
+
+#### Option 1: Using Startup Script (Recommended)
+```bash
+# Make scripts executable (Linux/Mac)
+chmod +x start.sh stop.sh
+
+# Start all services
+./start.sh
+
+# Stop all services
+./stop.sh
+```
+
+#### Option 2: Using Docker Compose Directly
 ```bash
 # Build and start all services
 docker-compose up --build
 
-# Or run in detached mode
+# Or run in detached mode (background)
 docker-compose up --build -d
+
+# Stop services
+docker-compose down
 ```
+
+#### Option 3: Windows PowerShell
+```powershell
+# Start services
+docker-compose up --build -d
+
+# Stop services
+docker-compose down
+```
+
+**Note**: The startup scripts (`start.sh` and `stop.sh`) are **convenience scripts** that run docker-compose commands for you. They are **NOT** copied into containers - they run on your host machine to manage the Docker containers.
+
+### How the Scripts Work
+
+- **`start.sh`**: 
+  - Checks if Docker is running
+  - Creates `.env` file from template if it doesn't exist
+  - Creates logs directory
+  - Runs `docker-compose up --build -d`
+  - Shows you all the access URLs
+  - Provides helpful commands
+
+- **`stop.sh`**: 
+  - Runs `docker-compose down`
+  - Shows cleanup options
+
+- **`test-api.sh`**: 
+  - Tests all API endpoints
+  - Verifies the application is working
+  - Shows monitoring URLs
 
 ### 4. Verify Services
 
@@ -118,7 +185,7 @@ docker-compose ps
 |---------|-----|-------------|
 | **Frontend** | http://localhost:3000 | React User Interface |
 | **Backend API** | http://localhost:3001 | REST API Endpoints |
-| **Grafana** | http://localhost:3001 | Monitoring Dashboard |
+| **Grafana** | http://localhost:3002 | Monitoring Dashboard |
 | **Jaeger** | http://localhost:16686 | Distributed Tracing |
 | **Prometheus** | http://localhost:9090 | Metrics Collection |
 | **RabbitMQ Management** | http://localhost:15672 | Message Queue UI |
@@ -132,7 +199,7 @@ docker-compose ps
 
 ### 1. Grafana Dashboards
 
-Access Grafana at http://localhost:3001 and explore the pre-configured dashboards:
+Access Grafana at http://localhost:3002 and explore the pre-configured dashboards:
 
 - **User List Application Dashboard**: Application metrics and performance
 - **Infrastructure Metrics**: System resource usage
@@ -290,7 +357,7 @@ curl http://localhost:3001/health
 
 ### Common Issues
 
-1. **Port Conflicts**: Ensure ports 3000, 3001, 5432, 6379, 5672, 9090, 16686 are available
+1. **Port Conflicts**: Ensure ports 3000, 3001, 3002, 5432, 6379, 5672, 9090, 16686 are available
 2. **Memory Issues**: Increase Docker memory allocation
 3. **Permission Issues**: Check file permissions for logs directory
 

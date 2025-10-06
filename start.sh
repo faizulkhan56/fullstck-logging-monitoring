@@ -45,7 +45,7 @@ if docker-compose ps | grep -q "Up"; then
     echo "🌐 Access Points:"
     echo "   Frontend:     http://localhost:3000"
     echo "   Backend API:  http://localhost:3001"
-    echo "   Grafana:      http://localhost:3001 (admin/admin)"
+    echo "   Grafana:      http://localhost:3002 (admin/admin)"
     echo "   Jaeger:       http://localhost:16686"
     echo "   Prometheus:   http://localhost:9090"
     echo "   RabbitMQ:     http://localhost:15672 (guest/guest)"
